@@ -12,25 +12,25 @@ class ModelsController < ApplicationController
 	def load_initial_model
 		@init_model = nil
 		@popup_content = ""
-		@valid_model = Model.get_valid_model(params[:species_id])
-		@hypotheses = Model.get_hypotheses(params[:species_id])
-		@continuous_model = Model.get_continous_model(params[:species_id])
+		valid_model = Model.get_valid_model(params[:species_id])
+		hypotheses = Model.get_hypotheses(params[:species_id])
+		continuous_model = Model.get_continous_model(params[:species_id])
 
-		if @valid_model
-			@init_model = @valid_model
-			if @hypotheses.size > 0
+		if valid_model
+			@init_model = valid_model
+			if hypotheses.size > 0
 				@popup_content = I18n.t('biomodelos.models.init.case_2')
 			end
-		elsif @hypotheses.size > 0
-			if @hypotheses.size == 1
-				@init_model = @hypotheses[0]
+		elsif hypotheses.size > 0
+			if hypotheses.size == 1
+				@init_model = hypotheses[0]
 				@popup_content = I18n.t('biomodelos.models.init.case_3')
 			else
-				@init_model = Model.get_best_hypothesis(@hypotheses)
+				@init_model = Model.get_best_hypothesis(hypotheses)
 				@popup_content = I18n.t('biomodelos.models.init.case_4')
 			end
-		elsif @continuous_model
-			@init_model = @continuous_model
+		elsif continuous_model
+			@init_model = continuous_model
 			@popup_content = I18n.t('biomodelos.models.init.case_5')
 		end
 

@@ -99,7 +99,10 @@ class Model
       response = JSON.parse(get('/' + species_id + '?type=Valid').body)
       valid_models_array = []
       response.each do |model|
-        t = Model.new(model["modelID"], model["modelStatus"], model["png"], model["zip"], model["thumb"], model["thresholdType"], model["modelLevel"], model["license"], model["customCitation"], model["methodFile"], model["published"])
+        t = Model.new(model["modelID"], model["modelStatus"], model["png"], model["zip"],
+          model["thumb"], model["thresholdType"], model["modelLevel"], model["license"],
+          model["customCitation"], model["methodFile"], model["published"], response[0]["geoTIFF"]
+        )
         valid_models_array.push(t)
       end
       return valid_models_array
