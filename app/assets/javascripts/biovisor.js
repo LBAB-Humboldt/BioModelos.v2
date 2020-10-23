@@ -654,12 +654,20 @@ var _BioModelosVisorModule = function() {
 		}
 	}
 
-	var loadModel = function (modelUrl, name) {
-
+	var loadModel = function (pngUrl, tiffUrl = "", tiffLayer = "") {
        /* Dispose older model if it exists */
-        unloadModel();
+		unloadModel();
 
-	    modelLayer = new L.ImageOverlay(modelUrl, imageBounds, {opacity: 0.6});
+		if (tiffUrl !== "") {
+			modelLayer = L.tileLayer.wms(tiffUrl, {
+				layers: tiffLayer,
+				styles: 'binario',
+				transparent:true,
+				format:'image/png'
+			})
+		} else {
+			modelLayer = new L.ImageOverlay(pngUrl, imageBounds, {opacity: 0.6});
+		}
 
 	    map.addLayer(modelLayer, true);
 	    layerControl.addOverlay(modelLayer, "Modelo");

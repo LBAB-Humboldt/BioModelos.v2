@@ -3,9 +3,12 @@ class Model
   	format :json
     base_uri BASE_URI + '/models'
 
-  	attr_accessor :modelID, :modelStatus, :pngUrl, :zipUrl, :thumbUrl, :threshold, :level, :license, :citation, :methodFile, :published
+    attr_accessor :modelID, :modelStatus, :pngUrl, :zipUrl, :thumbUrl, :threshold, :level, :license,
+      :citation, :methodFile, :published, :geoTIFF
 
-  	def initialize(modelID, modelStatus, pngUrl, zipUrl, thumbUrl, threshold, level, license, citation, methodFile, published)
+    def initialize(modelID, modelStatus, pngUrl, zipUrl, thumbUrl, threshold, level, license,
+      citation, methodFile, published, geoTIFF=nil
+    )
   		self.modelID = modelID
       self.modelStatus = modelStatus
 	    self.pngUrl = pngUrl
@@ -17,6 +20,7 @@ class Model
       self.citation = citation
       self.methodFile = methodFile
       self.published = published
+      self.geoTIFF = geoTIFF
   	end
 
     # Gets an array of thresholds of the species continuous model developed by BioModelos via API.
@@ -72,11 +76,21 @@ class Model
       if response.size > 1
         response.each do |model|
           if model["modelLevel"] == 2
-            valid_model = Model.new(model["modelID"], model["modelStatus"], model["png"], model["zip"], model["thumb"], model["thresholdType"], model["modelLevel"], model["license"], model["customCitation"], model["methodFile"], model["published"])
+            valid_model = Model.new(model["modelID"], model["modelStatus"], model["png"],
+              model["zip"], model["thumb"], model["thresholdType"], model["modelLevel"],
+              model["license"], model["customCitation"], model["methodFile"], model["published"],
+              response[0]["geoTIFF"]
+            )
+            break
           end
         end
       elsif response.size == 1
-        valid_model = Model.new(response[0]["modelID"], response[0]["modelStatus"], response[0]["png"], response[0]["zip"], response[0]["thumb"], response[0]["thresholdType"], response[0]["modelLevel"], response[0]["license"], response[0]["customCitation"], response[0]["methodFile"], response[0]["published"])
+        valid_model = Model.new(response[0]["modelID"], response[0]["modelStatus"],
+          response[0]["png"], response[0]["zip"], response[0]["thumb"],
+          response[0]["thresholdType"], response[0]["modelLevel"], response[0]["license"],
+          response[0]["customCitation"], response[0]["methodFile"], response[0]["published"],
+          response[0]["geoTIFF"]
+        )
       end
       return valid_model
     end

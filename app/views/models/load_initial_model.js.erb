@@ -1,5 +1,9 @@
 <% if @init_model %>
-	_BioModelosVisorModule.loadModel("<%= set_path(@init_model.pngUrl, 'model') %>", "<%= @init_model.modelStatus %>");
+	_BioModelosVisorModule.loadModel(
+		"<%= set_path(@init_model.pngUrl, 'model') %>",
+		"<%= set_path(@init_model.geoTIFF, 'tiffModel') %>",
+		"<%= "taxid-#{params[:species_id].rjust(5,'0')}:#{@init_model.modelID}"%>"
+	);
 	$(".modelname").show();
 	$(".modelname").html("<%= map_status_name(@init_model.modelStatus) %>");
 	if(<%= @init_model.modelStatus == 'Developing' %> && !$(".modelname").hasClass("gradient"))
