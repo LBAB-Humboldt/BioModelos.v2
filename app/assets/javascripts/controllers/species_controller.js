@@ -463,7 +463,11 @@ $(document).ready(function() {
 		}
 		$(".modelname").html(map_status_name($("#txt_model_status").val()));
         _BioModelosVisorModule.unloadAllLayers();
-		_BioModelosVisorModule.loadModel($(this).find('#imgsrc_model').val(), $('.titlethumb').val());
+		_BioModelosVisorModule.loadModel(
+			$(this).find('#imgsrc_model').val(),
+			$(this).find('#tiffsrc_model').val(),
+			$(this).find('#tiff_layer').val()
+		);
 
 	});
 

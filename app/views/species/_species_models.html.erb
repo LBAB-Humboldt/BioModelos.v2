@@ -17,6 +17,8 @@
 					<div class="front2"><%= image_tag(set_path(model.thumbUrl, "thumb")) %></div>
 					<a class="back2 sp_model_link">
 						<%= hidden_field_tag('imgsrc_model', set_path(model.pngUrl, "model")) %>
+						<%= hidden_field_tag('tiffsrc_model', set_path(model.geoTIFF, "tiffModel")) %>
+						<%= hidden_field_tag('tiff_layer', "taxid-#{params[:species_id].rjust(5,'0')}:#{model.modelID}") %>
 						<div class="titlethumb">
 							<%= model_title_thumb(model.modelStatus, model.published) %>
 							<%= hidden_field_tag 'txt_model_status', model.modelStatus %>
